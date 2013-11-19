@@ -25,13 +25,14 @@ Then implement the service behavior interface:
         {'stop', Reason :: any()} |
         {'stop', Reason :: any(), State :: any()}.
     
-    -callback service_request(ServiceReq :: #service_req{},
+    -callback service_request(ServiceReq :: service:service_req(),
                               State :: any(),
                               Dispatcher :: cloudi_service:dispatcher()) ->
         {'reply', Response :: cloudi_service:response(), NewState :: any()} |
         {'reply', ResponseInfo :: cloudi_service:response_info(),
          Response :: cloudi_service:response(), NewState :: any()} |
-        {'forward', NextServiceReq :: #service_req{}, NewState :: any()} |
+        {'forward', NextServiceReq :: service:service_req(),
+         NewState :: any()} |
         {'noreply', NewState :: any()} |
         {'stop', Reason :: any(), NewState :: any()}.
     
