@@ -51,10 +51,20 @@
 -module(service).
 -author('mjtruog [at] gmail (dot) com').
 
+%% behavior interface
+-export([add/1,
+         add/2,
+         remove/1,
+         remove/2]).
+
 -include("service_req.hrl").
 
 -type service_req() :: #service_req{}.
 -export_type([service_req/0]).
+
+%%%------------------------------------------------------------------------
+%%% Callback functions from behavior
+%%%------------------------------------------------------------------------
 
 -callback service_config() ->
     cloudi_service_api:service_internal() |
@@ -87,4 +97,54 @@
 -callback service_terminate(Reason :: any(),
                             State :: any()) ->
     'ok'.
+
+%%%------------------------------------------------------------------------
+%%% Behavior interface functions
+%%%------------------------------------------------------------------------
+
+-spec add(Module :: module()) ->
+    {ok, ServiceId :: cloudi_service_api:service_id()} |
+    {error, any()}.
+
+add(Module)
+    when is_atom(Module) ->
+    case cloudi_service_api:services_add([Module:service_config()],
+                                         infinity) of
+        {ok, [ServiceId]} ->
+            {ok, ServiceId};
+        {error, _} = Error ->
+            Error
+    end.
+
+-spec add(Module :: module(),
+          Timeout :: cloudi_service_api:timeout_milliseconds() | infinity) ->
+    {ok, ServiceId :: cloudi_service_api:service_id()} |
+    {error, any()}.
+
+add(Module, Timeout)
+    when is_atom(Module) ->
+    case cloudi_service_api:services_add([Module:service_config()],
+                                         Timeout) of
+        {ok, [ServiceId]} ->
+            {ok, ServiceId};
+        {error, _} = Error ->
+            Error
+    end.
+
+-spec remove(ServiceId :: cloudi_service_api:service_id()) ->
+    ok |
+    {error, any()}.
+
+remove(ServiceId)
+    when is_binary(ServiceId), byte_size(ServiceId) == 16 ->
+    cloudi_service_api:services_remove([ServiceId], infinity).
+
+-spec remove(ServiceId :: cloudi_service_api:service_id(),
+             Timeout :: cloudi_service_api:timeout_milliseconds() | infinity) ->
+    ok |
+    {error, any()}.
+
+remove(ServiceId, Timeout)
+    when is_binary(ServiceId), byte_size(ServiceId) == 16 ->
+    cloudi_service_api:services_remove([ServiceId], Timeout).
 
