@@ -50,6 +50,8 @@
          cloudi_service_handle_info/3,
          cloudi_service_terminate/2]).
 
+-include_lib("cloudi_core/include/cloudi_service.hrl").
+-include_lib("cloudi_core/include/cloudi_service_api.hrl").
 -include_lib("service/include/service_req.hrl").
 
 -spec cloudi_service_init(Args :: list(),

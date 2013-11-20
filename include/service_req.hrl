@@ -45,12 +45,12 @@
     {
         type :: cloudi_service:request_type(), % send_async | send_sync
         name :: cloudi_service:service_name(),
-        pattern :: cloudi_service:service_pattern(),
+        pattern :: cloudi_service:service_name_pattern(),
         request_info :: cloudi_service:request_info(),
         request :: cloudi_service:request(),
         timeout :: cloudi_service:timeout_milliseconds(),
         priority :: cloudi_service:priority(),
         trans_id :: cloudi_service:trans_id(),
-        pid :: pid()
+        pid :: pid() | cloudi_service:pattern_pid()
     }).
 
