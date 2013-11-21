@@ -164,6 +164,9 @@
          recv_async/2,
          recv_async/3,
          recv_async/4,
+         recv_asyncs/2,
+         recv_asyncs/3,
+         recv_asyncs/4,
          prefix/1,
          timeout_async/1,
          timeout_sync/1,
@@ -1644,8 +1647,7 @@ recv_async(Dispatcher, Param1, Param2) ->
 %% @end
 %%-------------------------------------------------------------------------
 
--spec recv_async(Dispatcher :: cloudi_service:dispatcher() |
-                               cloudi:context(),
+-spec recv_async(Dispatcher :: cloudi_service:dispatcher(),
                  Timeout :: cloudi_service:timeout_milliseconds(),
                  TransId :: cloudi_service:trans_id(),
                  Consume :: boolean()) ->
@@ -1655,7 +1657,61 @@ recv_async(Dispatcher, Param1, Param2) ->
     {'error', Reason :: atom()}.
 
 recv_async(Dispatcher, Timeout, TransId, Consume) ->
-    cloudi:recv_async(Dispatcher, Timeout, TransId, Consume).
+    cloudi_service:recv_async(Dispatcher, Timeout, TransId, Consume).
+
+%%-------------------------------------------------------------------------
+%% @doc
+%% ===Receive asynchronous service requests.===
+%% @end
+%%-------------------------------------------------------------------------
+
+-spec recv_asyncs(Dispatcher :: cloudi_service:dispatcher() |
+                                cloudi:context(),
+                  TransIdList :: list(cloudi_service:trans_id())) ->
+    {'ok', list({ResponseInfo :: cloudi_service:response_info(),
+                 Response :: cloudi_service:response(),
+                 TransId :: cloudi_service:trans_id()})} |
+    {'error', Reason :: atom()}.
+
+recv_asyncs(Dispatcher, TransIdList) ->
+    cloudi:recv_asyncs(Dispatcher, TransIdList).
+
+%%-------------------------------------------------------------------------
+%% @doc
+%% ===Receive asynchronous service requests.===
+%% @end
+%%-------------------------------------------------------------------------
+
+-spec recv_asyncs(Dispatcher :: cloudi_service:dispatcher() |
+                                cloudi:context(),
+                  Timeout :: cloudi_service:timeout_milliseconds() |
+                             'undefined',
+                  TransIdList :: list(cloudi_service:trans_id())) ->
+    {'ok', list({ResponseInfo :: cloudi_service:response_info(),
+                 Response :: cloudi_service:response(),
+                 TransId :: cloudi_service:trans_id()})} |
+    {'error', Reason :: atom()}.
+
+recv_asyncs(Dispatcher, Timeout, TransIdList) ->
+    cloudi:recv_asyncs(Dispatcher, Timeout, TransIdList).
+
+%%-------------------------------------------------------------------------
+%% @doc
+%% ===Receive asynchronous service requests.===
+%% @end
+%%-------------------------------------------------------------------------
+
+-spec recv_asyncs(Dispatcher :: cloudi_service:dispatcher(),
+                  Timeout :: cloudi_service:timeout_milliseconds(),
+                  TransIdList :: list(cloudi_service:trans_id()),
+                  Consume :: boolean()) ->
+    {'ok', list({ResponseInfo :: cloudi_service:response_info(),
+                 Response :: cloudi_service:response(),
+                 TransId :: cloudi_service:trans_id()})} |
+    {'error', Reason :: atom()}.
+
+recv_asyncs(Dispatcher, Timeout, TransIdList, Consume) ->
+    cloudi_service:recv_asyncs(Dispatcher, Timeout, TransIdList, Consume).
 
 %%-------------------------------------------------------------------------
 %% @doc
