@@ -137,7 +137,7 @@ cloudi_service_handle_request(Type, Name, Pattern, RequestInfo, Request,
 cloudi_service_handle_info(Request, State, Dispatcher) ->
     service_info(Request, State, Dispatcher).
 
--type cloudi_service_terminate(Reason :: any(),
+-spec cloudi_service_terminate(Reason :: any(),
                                State :: any()) ->
     'ok'.
 
