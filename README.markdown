@@ -46,6 +46,11 @@ Then implement the service behavior interface:
                                 State :: any()) ->
         'ok'.
 
+Otherwise, everything is normal CloudI service integration with usage
+of the `service` module (instead of the `cloudi` module or the
+`cloudi_service` module).  To see documentation about CloudI service
+integration, [go here](https://github.com/CloudI/CloudI#integration).
+
 ## CONTACT
 
 Michael Truog (mjtruog [at] gmail (dot) com)
