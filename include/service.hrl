@@ -5,7 +5,7 @@
 %%%
 %%% BSD LICENSE
 %%% 
-%%% Copyright (c) 2013, Michael Truog <mjtruog at gmail dot com>
+%%% Copyright (c) 2013-2014, Michael Truog <mjtruog at gmail dot com>
 %%% All rights reserved.
 %%% 
 %%% Redistribution and use in source and binary forms, with or without
@@ -80,7 +80,8 @@ cloudi_service_init(Args, Prefix, Dispatcher) ->
                                         cloudi_service:priority(),
                                     TransId ::
                                         cloudi_service:trans_id(),
-                                    Pid :: pid(),
+                                    Pid ::
+                                        cloudi_service:source(),
                                     State :: any(),
                                     Dispatcher ::
                                         cloudi_service:dispatcher()) ->

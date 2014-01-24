@@ -5,7 +5,7 @@
 %%%
 %%% BSD LICENSE
 %%% 
-%%% Copyright (c) 2013, Michael Truog <mjtruog at gmail dot com>
+%%% Copyright (c) 2013-2014, Michael Truog <mjtruog at gmail dot com>
 %%% All rights reserved.
 %%% 
 %%% Redistribution and use in source and binary forms, with or without
@@ -51,6 +51,7 @@
         timeout :: cloudi_service:timeout_milliseconds(),
         priority :: cloudi_service:priority(),
         trans_id :: cloudi_service:trans_id(),
-        pid :: pid() | cloudi_service:pattern_pid()
+        pid :: cloudi_service:source() |    % service request received
+               cloudi_service:pattern_pid() % service request send
     }).
 

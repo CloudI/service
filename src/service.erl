@@ -52,7 +52,7 @@
 %%%
 %%% BSD LICENSE
 %%% 
-%%% Copyright (c) 2013, Michael Truog <mjtruog at gmail dot com>
+%%% Copyright (c) 2013-2014, Michael Truog <mjtruog at gmail dot com>
 %%% All rights reserved.
 %%% 
 %%% Redistribution and use in source and binary forms, with or without
@@ -87,7 +87,7 @@
 %%% DAMAGE.
 %%%
 %%% @author Michael Truog <mjtruog [at] gmail (dot) com>
-%%% @copyright 2013 Michael Truog
+%%% @copyright 2013-2014 Michael Truog
 %%% @version 1.3.1 {@date} {@time}
 %%%------------------------------------------------------------------------
 
@@ -167,14 +167,27 @@
          recv_asyncs/2,
          recv_asyncs/3,
          recv_asyncs/4,
+         % service configuration
          prefix/1,
          timeout_async/1,
          timeout_sync/1,
+         timeout_max/1,
+         priority_default/1,
+         destination_refresh_immediate/1,
+         destination_refresh_lazy/1,
+         source_subscriptions/2,
+         context_options/1,
+         % service request parameter helpers
          service_name_parse/2,
          service_name_parse_with_suffix/2,
          request_http_qs_parse/1,
          request_info_key_value_new/1,
          request_info_key_value_parse/1,
+         key_value_erase/2,
+         key_value_find/2,
+         key_value_store/3,
+         trans_id/1,
+         trans_id_age/1,
          % functions to trigger edoc, until -callback works with edoc
          'Module:service_init'/3,
          'Module:service_request'/3,
@@ -199,6 +212,8 @@
 -type trans_id() :: cloudi_service:trans_id().
 -type pattern_pid() :: cloudi_service:pattern_pid().
 -type dispatcher() :: cloudi_service:dispatcher().
+-type source() :: cloudi_service:source().
+-type key_values() :: cloudi_service:key_values().
 -export_type([request_type/0,
               service_name/0,
               service_name_pattern/0,
@@ -208,7 +223,9 @@
               priority/0,
               trans_id/0,
               pattern_pid/0,
-              dispatcher/0]).
+              dispatcher/0,
+              source/0,
+              key_values/0]).
 
 % cloudi module types
 -type context() :: cloudi:context().
@@ -1755,6 +1772,85 @@ timeout_sync(Dispatcher) ->
 
 %%-------------------------------------------------------------------------
 %% @doc
+%% === Maximum possible service request timeout (in milliseconds).===
+%% @end
+%%-------------------------------------------------------------------------
+
+-spec timeout_max(Context :: cloudi_service:dispatcher() |
+                             cloudi:context()) ->
+    TimeoutMax :: cloudi_service_api:timeout_milliseconds().
+
+timeout_max(Dispatcher) ->
+    cloudi:timeout_max(Dispatcher).
+
+%%-------------------------------------------------------------------------
+%% @doc
+%% ===Configured service default priority.===
+%% @end
+%%-------------------------------------------------------------------------
+
+-spec priority_default(Context :: cloudi_service:dispatcher() |
+                                  cloudi:context()) ->
+    PriorityDefault :: cloudi_service_api:priority().
+
+priority_default(Dispatcher) ->
+    cloudi:priority_default(Dispatcher).
+
+%%-------------------------------------------------------------------------
+%% @doc
+%% ===Configured service destination refresh is immediate.===
+%% @end
+%%-------------------------------------------------------------------------
+
+-spec destination_refresh_immediate(Context :: cloudi_service:dispatcher() |
+                                               cloudi:context()) ->
+    boolean().
+
+destination_refresh_immediate(Dispatcher) ->
+    cloudi:destination_refresh_immediate(Dispatcher).
+
+%%-------------------------------------------------------------------------
+%% @doc
+%% ===Configured service destination refresh is lazy.===
+%% @end
+%%-------------------------------------------------------------------------
+
+-spec destination_refresh_lazy(Context :: cloudi_service:dispatcher() |
+                                          cloudi:context()) ->
+    boolean().
+
+destination_refresh_lazy(Dispatcher) ->
+    cloudi:destination_refresh_lazy(Dispatcher).
+
+%%-------------------------------------------------------------------------
+%% @doc
+%% ===Get a list of all service name patterns a service request source is subscribed to.===
+%% @end
+%%-------------------------------------------------------------------------
+
+-spec source_subscriptions(Dispatcher :: cloudi_service:dispatcher(),
+                           ServiceReq :: service_req()) ->
+    list(cloudi_service:service_name_pattern()).
+
+source_subscriptions(Dispatcher, #service_req{pid = Pid}) ->
+    cloudi_service:source_subscriptions(Dispatcher, Pid).
+
+%%-------------------------------------------------------------------------
+%% @doc
+%% ===Get the context options from the service's configuration.===
+%% A service would only use this when delaying the creation of a context
+%% for child processes.
+%% @end
+%%-------------------------------------------------------------------------
+
+-spec context_options(Dispatcher :: cloudi_service:dispatcher()) ->
+    cloudi:options().
+
+context_options(Dispatcher) ->
+    cloudi_service:context_options(Dispatcher).
+
+%%-------------------------------------------------------------------------
+%% @doc
 %% ===Parse a service name pattern.===
 %% @end
 %%-------------------------------------------------------------------------
@@ -1800,10 +1896,7 @@ request_http_qs_parse(Request) ->
 %% @end
 %%-------------------------------------------------------------------------
 
--spec request_info_key_value_new(RequestInfo ::
-                                     list({binary() | string() | atom(),
-                                           binary() | string() | any()}) |
-                                     dict()) ->
+-spec request_info_key_value_new(RequestInfo :: cloudi_service:key_values()) ->
     Result :: binary().
 
 request_info_key_value_new(RequestInfo) ->
@@ -1822,6 +1915,84 @@ request_info_key_value_new(RequestInfo) ->
 
 request_info_key_value_parse(RequestInfo) ->
     cloudi_service:request_info_key_value_parse(RequestInfo).
+
+%%-------------------------------------------------------------------------
+%% @doc
+%% ===Generic key/value erase.===
+%% RequestInfo's key/value result from request_info_key_value_parse/1
+%% can be used here to erase request meta-data while encapsulating
+%% the data structure used for the lookup.
+%% @end
+%%-------------------------------------------------------------------------
+
+-spec key_value_erase(Key :: any(),
+                      KeyValues :: cloudi_service:key_values()) ->
+    NewKeyValues :: cloudi_service:key_values().
+
+key_value_erase(Key, KeyValues) ->
+    cloudi_service:key_value_erase(Key, KeyValues).
+
+%%-------------------------------------------------------------------------
+%% @doc
+%% ===Generic key/value find.===
+%% RequestInfo's key/value result from request_info_key_value_parse/1
+%% can be used here to access the request meta-data while encapsulating
+%% the data structure used for the lookup.
+%% @end
+%%-------------------------------------------------------------------------
+
+-spec key_value_find(Key :: any(),
+                     KeyValues :: cloudi_service:key_values()) ->
+    {ok, Value :: any()} |
+    error.
+
+key_value_find(Key, KeyValues) ->
+    cloudi_service:key_value_find(Key, KeyValues).
+
+%%-------------------------------------------------------------------------
+%% @doc
+%% ===Generic key/value store.===
+%% RequestInfo's key/value result from request_info_key_value_parse/1
+%% can be used here to store request meta-data while encapsulating
+%% the data structure used for the lookup.
+%% @end
+%%-------------------------------------------------------------------------
+
+-spec key_value_store(Key :: any(),
+                      Value :: any(),
+                      KeyValues :: cloudi_service:key_values()) ->
+    NewKeyValues :: cloudi_service:key_values().
+
+key_value_store(Key, Value, KeyValues) ->
+    cloudi_service:key_value_store(Key, Value, KeyValues).
+
+%%-------------------------------------------------------------------------
+%% @doc
+%% ===Return a new transaction id.===
+%% The same data as used when sending service requests is used.
+%% @end
+%%-------------------------------------------------------------------------
+
+-spec trans_id(Dispatcher :: cloudi_service:dispatcher() |
+                             cloudi:context()) ->
+    <<_:128>>.
+
+trans_id(Dispatcher) ->
+    cloudi:trans_id(Dispatcher).
+
+%%-------------------------------------------------------------------------
+%% @doc
+%% ===Return the age of the transaction id.===
+%% The result is microseconds since the Unix epoch 1970-01-01 00:00:00.
+%% @end
+%%-------------------------------------------------------------------------
+
+-spec trans_id_age(TransId :: <<_:128>>) ->
+    non_neg_integer().
+
+trans_id_age(TransId)
+    when is_binary(TransId) ->
+    cloudi:trans_id_age(TransId).
 
 %%%------------------------------------------------------------------------
 %%% edoc functions
