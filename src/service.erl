@@ -94,6 +94,8 @@
 -module(service).
 -author('mjtruog [at] gmail (dot) com').
 
+-compile(nowarn_deprecated_type). % for 17.0 compilation
+
 %% behavior interface
 -export([% cloudi_service_api module helpers
          add/1,
