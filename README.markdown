@@ -57,5 +57,6 @@ Michael Truog (mjtruog [at] gmail (dot) com)
 
 ## THANKS
 
-* Juan Jose Comellas (interface ideas)
+* Juan Jose Comellas (interface ideas, fixes)
+* Drew Varner (fixes)
 
