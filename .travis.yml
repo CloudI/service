@@ -1,0 +1,15 @@
+language: erlang
+otp_release:
+  - 17.0
+  - R16B03-1
+  - R16B
+before_script:
+  - rebar get-deps
+script: rebar compile || ( find ../src/ -mmin 1 \( -name 'raw.log' -o -name 'cloudi.log' \) -printf '%C@ %p\n' | sort -r | cut -d ' ' -f 2 | xargs cat && exit 1 )
+after_script:
+  - rebar clean
+branches:
+  only:
+    - master
+notifications:
+  irc: "chat.freenode.net#cloudi"
