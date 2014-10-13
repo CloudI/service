@@ -1,5 +1,7 @@
 #`service` Behavior
 
+[![Build Status](https://secure.travis-ci.org/CloudI/service.png?branch=master)](http://travis-ci.org/CloudI/service)
+
 A minimal Erlang behavior for creating CloudI internal services.
 
 ## LICENSE
