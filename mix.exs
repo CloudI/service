@@ -3,7 +3,7 @@ defmodule Service do
 
   def project do
     [app: :service,
-     version: "1.4.0-rc.4",
+     version: "1.4.0",
      language: :erlang,
      description: description,
      package: package,
@@ -11,7 +11,7 @@ defmodule Service do
   end
 
   defp deps do
-    [{:cloudi_core, "~> 1.4.0-rc.4"}]
+    [{:cloudi_core, "~> 1.4.0"}]
   end
 
   defp description do
