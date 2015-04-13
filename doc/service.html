@@ -13,9 +13,9 @@
 <ul class="index"><li><a href="#description">Description</a></li><li><a href="#types">Data Types</a></li><li><a href="#index">Function Index</a></li><li><a href="#functions">Function Details</a></li></ul>
    <h3><a name="Service_Behaviour">Service Behaviour</a></h3>
    A minimal behaviour for creating CloudI internal services.
-<p>Copyright © 2013-2014 Michael Truog</p>
+<p>Copyright © 2013-2015 Michael Truog</p>
 
-<p><b>Version:</b> 1.4.0 Dec 20 2014 15:11:03
+<p><b>Version:</b> 1.5.0 Apr 12 2015 20:43:14
   ------------------------------------------------------------------------</p>
 <p><b>This module defines the <tt>service</tt> behaviour.</b><br> Required callback functions: <tt>service_config/0</tt>, <tt>service_init/4</tt>, <tt>service_request/3</tt>, <tt>service_info/3</tt>, <tt>service_terminate/3</tt>.</p>
 <p><b>Authors:</b> Michael Truog (<a href="mailto:mjtruog [at] gmail (dot) com"><tt>mjtruog [at] gmail (dot) com</tt></a>).</p>
@@ -65,8 +65,12 @@
       service_terminate                &lt;-----              .</pre>
 <h2><a name="types">Data Types</a></h2>
 
-<h3 class="typedecl"><a name="type-context">context()</a></h3>
-<p><tt>context() = <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a></tt></p>
+<h3 class="typedecl"><a name="type-dict_proxy">dict_proxy()</a></h3>
+<p><tt>dict_proxy(_Key, _Value) = dict()</tt></p>
+
+
+<h3 class="typedecl"><a name="type-dict_proxy">dict_proxy()</a></h3>
+<p><tt>dict_proxy(_Key, _Value) = dict()</tt></p>
 
 
 <h3 class="typedecl"><a name="type-dispatcher">dispatcher()</a></h3>
@@ -349,6 +353,8 @@
   <h4><a name="Get_a_list_of_all_service_name_patterns_a_service_request_source_is_subscribed_to.">Get a list of all service name patterns a service request source is subscribed to.</a></h4>.</td></tr>
 <tr><td valign="top"><a href="#subscribe-2">subscribe/2</a></td><td>
   <h4><a name="Subscribe_to_a_service_name_pattern.">Subscribe to a service name pattern.</a></h4>.</td></tr>
+<tr><td valign="top"><a href="#suffix-2">suffix/2</a></td><td>
+  <h4><a name="Service_request_suffix_from_a_service_name_or_service_name_pattern.">Service request suffix from a service name or service name pattern.</a></h4>.</td></tr>
 <tr><td valign="top"><a href="#timeout_async-1">timeout_async/1</a></td><td>
   <h4><a name="Configured_service_default_asynchronous_timeout_(in_milliseconds).">Configured service default asynchronous timeout (in milliseconds).</a></h4>.</td></tr>
 <tr><td valign="top"><a href="#timeout_max-1">timeout_max/1</a></td><td>
@@ -425,14 +431,14 @@
 
 <h3 class="function"><a name="destination_refresh_immediate-1">destination_refresh_immediate/1</a></h3>
 <div class="spec">
-<p><tt>destination_refresh_immediate(Context::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>) -&gt; boolean()</tt><br></p>
+<p><tt>destination_refresh_immediate(Context::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>) -&gt; boolean()</tt><br></p>
 </div><p>
   <h4><a name="Configured_service_destination_refresh_is_immediate.">Configured service destination refresh is immediate.</a></h4>
 </p>
 
 <h3 class="function"><a name="destination_refresh_lazy-1">destination_refresh_lazy/1</a></h3>
 <div class="spec">
-<p><tt>destination_refresh_lazy(Context::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>) -&gt; boolean()</tt><br></p>
+<p><tt>destination_refresh_lazy(Context::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>) -&gt; boolean()</tt><br></p>
 </div><p>
   <h4><a name="Configured_service_destination_refresh_is_lazy.">Configured service destination refresh is lazy.</a></h4>
 </p>
@@ -481,28 +487,28 @@
 
 <h3 class="function"><a name="get_pid-2">get_pid/2</a></h3>
 <div class="spec">
-<p><tt>get_pid(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>) -&gt; {ok, PatternPid::<a href="deps/cloudi_core/doc/cloudi_service.html#type-pattern_pid">cloudi_service:pattern_pid()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>get_pid(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>) -&gt; {ok, PatternPid::<a href="deps/cloudi_core/doc/cloudi_service.html#type-pattern_pid">cloudi_service:pattern_pid()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Get_a_service_destination_based_on_a_service_name.">Get a service destination based on a service name.</a></h4>
 </p>
 
 <h3 class="function"><a name="get_pid-3">get_pid/3</a></h3>
 <div class="spec">
-<p><tt>get_pid(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined) -&gt; {ok, PatternPid::<a href="deps/cloudi_core/doc/cloudi_service.html#type-pattern_pid">cloudi_service:pattern_pid()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>get_pid(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined) -&gt; {ok, PatternPid::<a href="deps/cloudi_core/doc/cloudi_service.html#type-pattern_pid">cloudi_service:pattern_pid()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Get_a_service_destination_based_on_a_service_name.">Get a service destination based on a service name.</a></h4>
 </p>
 
 <h3 class="function"><a name="get_pids-2">get_pids/2</a></h3>
 <div class="spec">
-<p><tt>get_pids(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>) -&gt; {ok, PatternPids::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-pattern_pid">cloudi_service:pattern_pid()</a>]} | {error, Reason::atom()}</tt><br></p>
+<p><tt>get_pids(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>) -&gt; {ok, PatternPids::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-pattern_pid">cloudi_service:pattern_pid()</a>]} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Get_all_service_destinations_based_on_a_service_name.">Get all service destinations based on a service name.</a></h4>
 </p>
 
 <h3 class="function"><a name="get_pids-3">get_pids/3</a></h3>
 <div class="spec">
-<p><tt>get_pids(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined) -&gt; {ok, PatternPids::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-pattern_pid">cloudi_service:pattern_pid()</a>]} | {error, Reason::atom()}</tt><br></p>
+<p><tt>get_pids(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined) -&gt; {ok, PatternPids::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-pattern_pid">cloudi_service:pattern_pid()</a>]} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Get_a_service_destination_based_on_a_service_name.">Get a service destination based on a service name.</a></h4>
 </p>
@@ -527,7 +533,7 @@
 
 <h3 class="function"><a name="mcast_async-2">mcast_async/2</a></h3>
 <div class="spec">
-<p><tt>mcast_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, ServiceReq::<a href="#type-service_req">service_req()</a>) -&gt; {ok, TransIdList::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>]} | {error, Reason::atom()}</tt><br></p>
+<p><tt>mcast_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, ServiceReq::<a href="#type-service_req">service_req()</a>) -&gt; {ok, TransIdList::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>]} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_a_multicast_asynchronous_service_request.">Send a multicast asynchronous service request.</a></h4>
   Asynchronous service requests are sent to all services that have
@@ -535,7 +541,7 @@
 
 <h3 class="function"><a name="mcast_async-3">mcast_async/3</a></h3>
 <div class="spec">
-<p><tt>mcast_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>) -&gt; {ok, TransIdList::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>]} | {error, Reason::atom()}</tt><br></p>
+<p><tt>mcast_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>) -&gt; {ok, TransIdList::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>]} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_a_multicast_asynchronous_service_request.">Send a multicast asynchronous service request.</a></h4>
   Asynchronous service requests are sent to all services that have
@@ -543,7 +549,7 @@
 
 <h3 class="function"><a name="mcast_async-4">mcast_async/4</a></h3>
 <div class="spec">
-<p><tt>mcast_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined) -&gt; {ok, TransIdList::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>]} | {error, Reason::atom()}</tt><br></p>
+<p><tt>mcast_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined) -&gt; {ok, TransIdList::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>]} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_a_multicast_asynchronous_service_request.">Send a multicast asynchronous service request.</a></h4>
   Asynchronous service requests are sent to all services that have
@@ -551,7 +557,7 @@
 
 <h3 class="function"><a name="mcast_async-6">mcast_async/6</a></h3>
 <div class="spec">
-<p><tt>mcast_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, RequestInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request_info">cloudi_service:request_info()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, Priority::<a href="deps/cloudi_core/doc/cloudi_service.html#type-priority">cloudi_service:priority()</a> | undefined) -&gt; {ok, TransIdList::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>]} | {error, Reason::atom()}</tt><br></p>
+<p><tt>mcast_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, RequestInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request_info">cloudi_service:request_info()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, Priority::<a href="deps/cloudi_core/doc/cloudi_service.html#type-priority">cloudi_service:priority()</a> | undefined) -&gt; {ok, TransIdList::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>]} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_a_multicast_asynchronous_service_request.">Send a multicast asynchronous service request.</a></h4>
   Asynchronous service requests are sent to all services that have
@@ -599,7 +605,7 @@
 
 <h3 class="function"><a name="mcast_async_passive-2">mcast_async_passive/2</a></h3>
 <div class="spec">
-<p><tt>mcast_async_passive(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, ServiceReq::<a href="#type-service_req">service_req()</a>) -&gt; {ok, TransId::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>]} | {error, Reason::atom()}</tt><br></p>
+<p><tt>mcast_async_passive(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, ServiceReq::<a href="#type-service_req">service_req()</a>) -&gt; {ok, TransId::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>]} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_a_multicast_asynchronous_service_request.">Send a multicast asynchronous service request.</a></h4>
   An alias for mcast_async.  The asynchronous service requests are returned
@@ -607,7 +613,7 @@
 
 <h3 class="function"><a name="mcast_async_passive-3">mcast_async_passive/3</a></h3>
 <div class="spec">
-<p><tt>mcast_async_passive(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>) -&gt; {ok, TransIdList::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>]} | {error, Reason::atom()}</tt><br></p>
+<p><tt>mcast_async_passive(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>) -&gt; {ok, TransIdList::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>]} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_a_multicast_asynchronous_service_request.">Send a multicast asynchronous service request.</a></h4>
   An alias for mcast_async.  The asynchronous service requests are returned
@@ -615,7 +621,7 @@
 
 <h3 class="function"><a name="mcast_async_passive-4">mcast_async_passive/4</a></h3>
 <div class="spec">
-<p><tt>mcast_async_passive(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined) -&gt; {ok, TransIdList::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>]} | {error, Reason::atom()}</tt><br></p>
+<p><tt>mcast_async_passive(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined) -&gt; {ok, TransIdList::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>]} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_a_multicast_asynchronous_service_request.">Send a multicast asynchronous service request.</a></h4>
   An alias for mcast_async.  The asynchronous service requests are returned
@@ -623,7 +629,7 @@
 
 <h3 class="function"><a name="mcast_async_passive-6">mcast_async_passive/6</a></h3>
 <div class="spec">
-<p><tt>mcast_async_passive(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, RequestInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request_info">cloudi_service:request_info()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, Priority::<a href="deps/cloudi_core/doc/cloudi_service.html#type-priority">cloudi_service:priority()</a> | undefined) -&gt; {ok, TransIdList::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>]} | {error, Reason::atom()}</tt><br></p>
+<p><tt>mcast_async_passive(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, RequestInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request_info">cloudi_service:request_info()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, Priority::<a href="deps/cloudi_core/doc/cloudi_service.html#type-priority">cloudi_service:priority()</a> | undefined) -&gt; {ok, TransIdList::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>]} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_a_multicast_asynchronous_service_request.">Send a multicast asynchronous service request.</a></h4>
   An alias for mcast_async.  The asynchronous service requests are returned
@@ -639,7 +645,7 @@
 
 <h3 class="function"><a name="priority_default-1">priority_default/1</a></h3>
 <div class="spec">
-<p><tt>priority_default(Context::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>) -&gt; PriorityDefault::<a href="deps/cloudi_core/doc/cloudi_service_api.html#type-priority">cloudi_service_api:priority()</a></tt><br></p>
+<p><tt>priority_default(Context::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>) -&gt; PriorityDefault::<a href="deps/cloudi_core/doc/cloudi_service_api.html#type-priority">cloudi_service_api:priority()</a></tt><br></p>
 </div><p>
   <h4><a name="Configured_service_default_priority.">Configured service default priority.</a></h4>
 </p>
@@ -653,14 +659,14 @@
 
 <h3 class="function"><a name="recv_async-1">recv_async/1</a></h3>
 <div class="spec">
-<p><tt>recv_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>) -&gt; {ok, ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>recv_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>) -&gt; {ok, ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Receive_an_asynchronous_service_request.">Receive an asynchronous service request.</a></h4>
   Use a null TransId to receive the oldest service request.</p>
 
 <h3 class="function"><a name="recv_async-2">recv_async/2</a></h3>
 <div class="spec">
-<p><tt>recv_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Param1::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | <a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>) -&gt; {ok, ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>recv_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Param1::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | <a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>) -&gt; {ok, ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Receive_an_asynchronous_service_request.">Receive an asynchronous service request.</a></h4>
   Either use the supplied TransId to receive the specific service request
@@ -668,7 +674,7 @@
 
 <h3 class="function"><a name="recv_async-3">recv_async/3</a></h3>
 <div class="spec">
-<p><tt>recv_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Param1::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | <a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>, Param2::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a> | boolean()) -&gt; {ok, ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>recv_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Param1::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | <a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>, Param2::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a> | boolean()) -&gt; {ok, ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Receive_an_asynchronous_service_request.">Receive an asynchronous service request.</a></h4>
   Either use the supplied TransId to receive the specific service request
@@ -683,14 +689,14 @@
 
 <h3 class="function"><a name="recv_asyncs-2">recv_asyncs/2</a></h3>
 <div class="spec">
-<p><tt>recv_asyncs(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, TransIdList::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>]) -&gt; {ok, [{ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>}]} | {error, Reason::atom()}</tt><br></p>
+<p><tt>recv_asyncs(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, TransIdList::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>]) -&gt; {ok, [{ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>}]} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Receive_asynchronous_service_requests.">Receive asynchronous service requests.</a></h4>
 </p>
 
 <h3 class="function"><a name="recv_asyncs-3">recv_asyncs/3</a></h3>
 <div class="spec">
-<p><tt>recv_asyncs(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, TransIdList::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>]) -&gt; {ok, [{ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>}]} | {error, Reason::atom()}</tt><br></p>
+<p><tt>recv_asyncs(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, TransIdList::[<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>]) -&gt; {ok, [{ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>}]} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Receive_asynchronous_service_requests.">Receive asynchronous service requests.</a></h4>
 </p>
@@ -714,7 +720,7 @@
 
 <h3 class="function"><a name="request_http_qs_parse-1">request_http_qs_parse/1</a></h3>
 <div class="spec">
-<p><tt>request_http_qs_parse(Request::binary()) -&gt; Result::dict()</tt><br></p>
+<p><tt>request_http_qs_parse(Request::binary()) -&gt; Result::<a href="#type-dict_proxy">dict_proxy</a>(binary(), binary())</tt><br></p>
 </div><p><b>This function is deprecated:</b> Use <a href="deps/cloudi_core/doc/cloudi_request.html#http_qs_parse-1"><code>cloudi_request:http_qs_parse/1</code></a> instead</p>
 
 
@@ -726,7 +732,7 @@
 
 <h3 class="function"><a name="request_info_key_value_parse-1">request_info_key_value_parse/1</a></h3>
 <div class="spec">
-<p><tt>request_info_key_value_parse(RequestInfo::binary() | list()) -&gt; Result::dict()</tt><br></p>
+<p><tt>request_info_key_value_parse(RequestInfo::binary() | list()) -&gt; Result::<a href="#type-dict_proxy">dict_proxy</a>(any(), any())</tt><br></p>
 </div><p><b>This function is deprecated:</b> Use <a href="deps/cloudi_core/doc/cloudi_request_info.html#key_value_parse-1"><code>cloudi_request_info:key_value_parse/1</code></a> instead</p>
 
 
@@ -801,49 +807,49 @@
 
 <h3 class="function"><a name="send-2">send/2</a></h3>
 <div class="spec">
-<p><tt>send(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, ServiceReq::<a href="#type-service_req">service_req()</a>) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>send(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, ServiceReq::<a href="#type-service_req">service_req()</a>) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_an_asynchronous_service_request.">Send an asynchronous service request.</a></h4>
 </p>
 
 <h3 class="function"><a name="send_async-2">send_async/2</a></h3>
 <div class="spec">
-<p><tt>send_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, ServiceReq::<a href="#type-service_req">service_req()</a>) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>send_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, ServiceReq::<a href="#type-service_req">service_req()</a>) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_an_asynchronous_service_request.">Send an asynchronous service request.</a></h4>
 </p>
 
 <h3 class="function"><a name="send_async-3">send_async/3</a></h3>
 <div class="spec">
-<p><tt>send_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>send_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_an_asynchronous_service_request.">Send an asynchronous service request.</a></h4>
 </p>
 
 <h3 class="function"><a name="send_async-4">send_async/4</a></h3>
 <div class="spec">
-<p><tt>send_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>send_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_an_asynchronous_service_request.">Send an asynchronous service request.</a></h4>
 </p>
 
 <h3 class="function"><a name="send_async-5">send_async/5</a></h3>
 <div class="spec">
-<p><tt>send_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, PatternPid::<a href="deps/cloudi_core/doc/cloudi_service.html#type-pattern_pid">cloudi_service:pattern_pid()</a> | undefined) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>send_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, PatternPid::<a href="deps/cloudi_core/doc/cloudi_service.html#type-pattern_pid">cloudi_service:pattern_pid()</a> | undefined) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_an_asynchronous_service_request.">Send an asynchronous service request.</a></h4>
 </p>
 
 <h3 class="function"><a name="send_async-6">send_async/6</a></h3>
 <div class="spec">
-<p><tt>send_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, RequestInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request_info">cloudi_service:request_info()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, Priority::<a href="deps/cloudi_core/doc/cloudi_service.html#type-priority">cloudi_service:priority()</a> | undefined) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>send_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, RequestInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request_info">cloudi_service:request_info()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, Priority::<a href="deps/cloudi_core/doc/cloudi_service.html#type-priority">cloudi_service:priority()</a> | undefined) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_an_asynchronous_service_request.">Send an asynchronous service request.</a></h4>
 </p>
 
 <h3 class="function"><a name="send_async-7">send_async/7</a></h3>
 <div class="spec">
-<p><tt>send_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, RequestInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request_info">cloudi_service:request_info()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, Priority::<a href="deps/cloudi_core/doc/cloudi_service.html#type-priority">cloudi_service:priority()</a> | undefined, PatternPid::<a href="deps/cloudi_core/doc/cloudi_service.html#type-pattern_pid">cloudi_service:pattern_pid()</a> | undefined) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>send_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, RequestInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request_info">cloudi_service:request_info()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, Priority::<a href="deps/cloudi_core/doc/cloudi_service.html#type-priority">cloudi_service:priority()</a> | undefined, PatternPid::<a href="deps/cloudi_core/doc/cloudi_service.html#type-pattern_pid">cloudi_service:pattern_pid()</a> | undefined) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_an_asynchronous_service_request.">Send an asynchronous service request.</a></h4>
 </p>
@@ -898,7 +904,7 @@
 
 <h3 class="function"><a name="send_async_passive-2">send_async_passive/2</a></h3>
 <div class="spec">
-<p><tt>send_async_passive(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, ServiceReq::<a href="#type-service_req">service_req()</a>) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>send_async_passive(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, ServiceReq::<a href="#type-service_req">service_req()</a>) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_an_asynchronous_service_request.">Send an asynchronous service request.</a></h4>
   An alias for send_async.  The asynchronous service request is returned
@@ -906,7 +912,7 @@
 
 <h3 class="function"><a name="send_async_passive-3">send_async_passive/3</a></h3>
 <div class="spec">
-<p><tt>send_async_passive(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>send_async_passive(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_an_asynchronous_service_request.">Send an asynchronous service request.</a></h4>
   An alias for send_async.  The asynchronous service request is returned
@@ -914,7 +920,7 @@
 
 <h3 class="function"><a name="send_async_passive-4">send_async_passive/4</a></h3>
 <div class="spec">
-<p><tt>send_async_passive(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>send_async_passive(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_an_asynchronous_service_request.">Send an asynchronous service request.</a></h4>
   An alias for send_async.  The asynchronous service request is returned
@@ -922,7 +928,7 @@
 
 <h3 class="function"><a name="send_async_passive-5">send_async_passive/5</a></h3>
 <div class="spec">
-<p><tt>send_async_passive(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, PatternPid::<a href="deps/cloudi_core/doc/cloudi_service.html#type-pattern_pid">cloudi_service:pattern_pid()</a> | undefined) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>send_async_passive(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, PatternPid::<a href="deps/cloudi_core/doc/cloudi_service.html#type-pattern_pid">cloudi_service:pattern_pid()</a> | undefined) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_an_asynchronous_service_request.">Send an asynchronous service request.</a></h4>
   An alias for send_async.  The asynchronous service request is returned
@@ -930,7 +936,7 @@
 
 <h3 class="function"><a name="send_async_passive-6">send_async_passive/6</a></h3>
 <div class="spec">
-<p><tt>send_async_passive(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, RequestInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request_info">cloudi_service:request_info()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, Priority::<a href="deps/cloudi_core/doc/cloudi_service.html#type-priority">cloudi_service:priority()</a> | undefined) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>send_async_passive(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, RequestInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request_info">cloudi_service:request_info()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, Priority::<a href="deps/cloudi_core/doc/cloudi_service.html#type-priority">cloudi_service:priority()</a> | undefined) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_an_asynchronous_service_request.">Send an asynchronous service request.</a></h4>
   An alias for send_async.  The asynchronous service request is returned
@@ -938,7 +944,7 @@
 
 <h3 class="function"><a name="send_async_passive-7">send_async_passive/7</a></h3>
 <div class="spec">
-<p><tt>send_async_passive(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, RequestInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request_info">cloudi_service:request_info()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, Priority::<a href="deps/cloudi_core/doc/cloudi_service.html#type-priority">cloudi_service:priority()</a> | undefined, PatternPid::<a href="deps/cloudi_core/doc/cloudi_service.html#type-pattern_pid">cloudi_service:pattern_pid()</a> | undefined) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>send_async_passive(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, RequestInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request_info">cloudi_service:request_info()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, Priority::<a href="deps/cloudi_core/doc/cloudi_service.html#type-priority">cloudi_service:priority()</a> | undefined, PatternPid::<a href="deps/cloudi_core/doc/cloudi_service.html#type-pattern_pid">cloudi_service:pattern_pid()</a> | undefined) -&gt; {ok, TransId::<a href="deps/cloudi_core/doc/cloudi_service.html#type-trans_id">cloudi_service:trans_id()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_an_asynchronous_service_request.">Send an asynchronous service request.</a></h4>
   An alias for send_async.  The asynchronous service request is returned
@@ -946,42 +952,42 @@
 
 <h3 class="function"><a name="send_sync-2">send_sync/2</a></h3>
 <div class="spec">
-<p><tt>send_sync(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, ServiceReq::<a href="#type-service_req">service_req()</a>) -&gt; {ok, ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {ok, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>send_sync(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, ServiceReq::<a href="#type-service_req">service_req()</a>) -&gt; {ok, ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {ok, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_a_synchronous_service_request.">Send a synchronous service request.</a></h4>
 </p>
 
 <h3 class="function"><a name="send_sync-3">send_sync/3</a></h3>
 <div class="spec">
-<p><tt>send_sync(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>) -&gt; {ok, ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {ok, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>send_sync(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>) -&gt; {ok, ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {ok, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_a_synchronous_service_request.">Send a synchronous service request.</a></h4>
 </p>
 
 <h3 class="function"><a name="send_sync-4">send_sync/4</a></h3>
 <div class="spec">
-<p><tt>send_sync(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined) -&gt; {ok, ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {ok, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>send_sync(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined) -&gt; {ok, ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {ok, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_a_synchronous_service_request.">Send a synchronous service request.</a></h4>
 </p>
 
 <h3 class="function"><a name="send_sync-5">send_sync/5</a></h3>
 <div class="spec">
-<p><tt>send_sync(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, PatternPid::<a href="deps/cloudi_core/doc/cloudi_service.html#type-pattern_pid">cloudi_service:pattern_pid()</a> | undefined) -&gt; {ok, ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {ok, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>send_sync(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, PatternPid::<a href="deps/cloudi_core/doc/cloudi_service.html#type-pattern_pid">cloudi_service:pattern_pid()</a> | undefined) -&gt; {ok, ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {ok, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_a_synchronous_service_request.">Send a synchronous service request.</a></h4>
 </p>
 
 <h3 class="function"><a name="send_sync-6">send_sync/6</a></h3>
 <div class="spec">
-<p><tt>send_sync(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, RequestInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request_info">cloudi_service:request_info()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, Priority::<a href="deps/cloudi_core/doc/cloudi_service.html#type-priority">cloudi_service:priority()</a> | undefined) -&gt; {ok, ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {ok, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>send_sync(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, RequestInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request_info">cloudi_service:request_info()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, Priority::<a href="deps/cloudi_core/doc/cloudi_service.html#type-priority">cloudi_service:priority()</a> | undefined) -&gt; {ok, ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {ok, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_a_synchronous_service_request.">Send a synchronous service request.</a></h4>
 </p>
 
 <h3 class="function"><a name="send_sync-7">send_sync/7</a></h3>
 <div class="spec">
-<p><tt>send_sync(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, RequestInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request_info">cloudi_service:request_info()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, Priority::<a href="deps/cloudi_core/doc/cloudi_service.html#type-priority">cloudi_service:priority()</a> | undefined, PatternPid::<a href="deps/cloudi_core/doc/cloudi_service.html#type-pattern_pid">cloudi_service:pattern_pid()</a> | undefined) -&gt; {ok, ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {ok, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {error, Reason::atom()}</tt><br></p>
+<p><tt>send_sync(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, Name::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a>, RequestInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request_info">cloudi_service:request_info()</a>, Request::<a href="deps/cloudi_core/doc/cloudi_service.html#type-request">cloudi_service:request()</a>, Timeout::<a href="deps/cloudi_core/doc/cloudi_service.html#type-timeout_milliseconds">cloudi_service:timeout_milliseconds()</a> | undefined, Priority::<a href="deps/cloudi_core/doc/cloudi_service.html#type-priority">cloudi_service:priority()</a> | undefined, PatternPid::<a href="deps/cloudi_core/doc/cloudi_service.html#type-pattern_pid">cloudi_service:pattern_pid()</a> | undefined) -&gt; {ok, ResponseInfo::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response_info">cloudi_service:response_info()</a>, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {ok, Response::<a href="deps/cloudi_core/doc/cloudi_service.html#type-response">cloudi_service:response()</a>} | {error, Reason::atom()}</tt><br></p>
 </div><p>
   <h4><a name="Send_a_synchronous_service_request.">Send a synchronous service request.</a></h4>
 </p>
@@ -1012,30 +1018,37 @@
   <h4><a name="Subscribe_to_a_service_name_pattern.">Subscribe to a service name pattern.</a></h4>
 </p>
 
+<h3 class="function"><a name="suffix-2">suffix/2</a></h3>
+<div class="spec">
+<p><tt>suffix(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>, NameOrPattern::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a> | <a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name_pattern">cloudi_service:service_name_pattern()</a>) -&gt; Suffix::<a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name">cloudi_service:service_name()</a> | <a href="deps/cloudi_core/doc/cloudi_service.html#type-service_name_pattern">cloudi_service:service_name_pattern()</a></tt><br></p>
+</div><p>
+  <h4><a name="Service_request_suffix_from_a_service_name_or_service_name_pattern.">Service request suffix from a service name or service name pattern.</a></h4>
+</p>
+
 <h3 class="function"><a name="timeout_async-1">timeout_async/1</a></h3>
 <div class="spec">
-<p><tt>timeout_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>) -&gt; TimeoutAsync::<a href="deps/cloudi_core/doc/cloudi_service_api.html#type-timeout_milliseconds">cloudi_service_api:timeout_milliseconds()</a></tt><br></p>
+<p><tt>timeout_async(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>) -&gt; TimeoutAsync::<a href="deps/cloudi_core/doc/cloudi_service_api.html#type-timeout_milliseconds">cloudi_service_api:timeout_milliseconds()</a></tt><br></p>
 </div><p>
   <h4><a name="Configured_service_default_asynchronous_timeout_(in_milliseconds).">Configured service default asynchronous timeout (in milliseconds).</a></h4>
 </p>
 
 <h3 class="function"><a name="timeout_max-1">timeout_max/1</a></h3>
 <div class="spec">
-<p><tt>timeout_max(Context::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>) -&gt; TimeoutMax::<a href="deps/cloudi_core/doc/cloudi_service_api.html#type-timeout_milliseconds">cloudi_service_api:timeout_milliseconds()</a></tt><br></p>
+<p><tt>timeout_max(Context::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>) -&gt; TimeoutMax::<a href="deps/cloudi_core/doc/cloudi_service_api.html#type-timeout_milliseconds">cloudi_service_api:timeout_milliseconds()</a></tt><br></p>
 </div><p>
   <h4><a name="Maximum_possible_service_request_timeout_(in_milliseconds).">Maximum possible service request timeout (in milliseconds).</a></h4>
 </p>
 
 <h3 class="function"><a name="timeout_sync-1">timeout_sync/1</a></h3>
 <div class="spec">
-<p><tt>timeout_sync(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>) -&gt; TimeoutSync::<a href="deps/cloudi_core/doc/cloudi_service_api.html#type-timeout_milliseconds">cloudi_service_api:timeout_milliseconds()</a></tt><br></p>
+<p><tt>timeout_sync(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>) -&gt; TimeoutSync::<a href="deps/cloudi_core/doc/cloudi_service_api.html#type-timeout_milliseconds">cloudi_service_api:timeout_milliseconds()</a></tt><br></p>
 </div><p>
   <h4><a name="Configured_service_default_synchronous_timeout_(in_milliseconds).">Configured service default synchronous timeout (in milliseconds).</a></h4>
 </p>
 
 <h3 class="function"><a name="trans_id-1">trans_id/1</a></h3>
 <div class="spec">
-<p><tt>trans_id(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a> | <a href="deps/cloudi_core/doc/cloudi.html#type-context">cloudi:context()</a>) -&gt; <a href="#type-trans_id">trans_id()</a></tt><br></p>
+<p><tt>trans_id(Dispatcher::<a href="deps/cloudi_core/doc/cloudi_service.html#type-dispatcher">cloudi_service:dispatcher()</a>) -&gt; <a href="#type-trans_id">trans_id()</a></tt><br></p>
 </div><p>
   <h4><a name="Return_a_new_transaction_id.">Return a new transaction id.</a></h4>
   The same data as used when sending service requests is used.</p>
@@ -1056,6 +1069,6 @@
 <hr>
 
 <div class="navbar"><a name="#navbar_bottom"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"></a></td></tr></table></div>
-<p><i>Generated by EDoc, Dec 20 2014, 15:11:04.</i></p>
+<p><i>Generated by EDoc, Apr 12 2015, 20:43:14.</i></p>
 </body>
 </html>

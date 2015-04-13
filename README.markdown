@@ -22,6 +22,7 @@ Then implement the service behavior interface:
     
     -callback service_init(Args :: list(),
                            Prefix :: cloudi_service:service_name_pattern(),
+                           Timeout :: cloudi_service_api:timeout_milliseconds(),
                            Dispatcher :: cloudi_service:dispatcher()) ->
         {'ok', State :: any()} |
         {'stop', Reason :: any()} |
@@ -45,6 +46,7 @@ Then implement the service behavior interface:
         {'stop', Reason :: any(), NewState :: any()}.
     
     -callback service_terminate(Reason :: any(),
+                                Timeout :: cloudi_service_api:timeout_milliseconds(),
                                 State :: any()) ->
         'ok'.
 
