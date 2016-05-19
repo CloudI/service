@@ -1,6 +1,7 @@
 #`service` Behavior
 
 [![Build Status](https://secure.travis-ci.org/CloudI/service.png?branch=master)](http://travis-ci.org/CloudI/service)
+[![hex.pm version](https://img.shields.io/hexpm/v/service.svg)](https://hex.pm/packages/service)
 
 A minimal Erlang behavior for creating CloudI internal services.
 
