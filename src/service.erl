@@ -52,7 +52,7 @@
 %%%
 %%% BSD LICENSE
 %%% 
-%%% Copyright (c) 2013-2015, Michael Truog <mjtruog at gmail dot com>
+%%% Copyright (c) 2013-2015, Michael Truog <mjtruog at protonmail dot com>
 %%% All rights reserved.
 %%% 
 %%% Redistribution and use in source and binary forms, with or without
@@ -86,13 +86,13 @@
 %%% OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 %%% DAMAGE.
 %%%
-%%% @author Michael Truog <mjtruog [at] gmail (dot) com>
+%%% @author Michael Truog <mjtruog at protonmail dot com>
 %%% @copyright 2013-2015 Michael Truog
 %%% @version 1.5.0 {@date} {@time}
 %%%------------------------------------------------------------------------
 
 -module(service).
--author('mjtruog [at] gmail (dot) com').
+-author('mjtruog at protonmail dot com').
 
 -compile(nowarn_deprecated_type). % for 17.0 compilation
 

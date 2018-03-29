@@ -58,7 +58,7 @@ integration, [go here](https://github.com/CloudI/CloudI#integration).
 
 ## CONTACT
 
-Michael Truog (mjtruog [at] gmail (dot) com)
+Michael Truog (mjtruog at protonmail dot com)
 
 ## THANKS
 
