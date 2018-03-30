@@ -22,7 +22,7 @@ defmodule Service do
     [files: ~w(src doc include rebar.config README.markdown),
      maintainers: ["Michael Truog"],
      licenses: ["BSD"],
-     links: %{"Website" => "http://cloudi.org",
+     links: %{"Website" => "https://cloudi.org",
               "GitHub" => "https://github.com/CloudI/service"}]
    end
 end
